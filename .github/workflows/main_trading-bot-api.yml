@@ -8,10 +8,7 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -27,8 +24,8 @@ jobs:
 
       - name: Create and start virtual environment
         run: |
-          python -m venv runtime
-          source runtime/bin/activate
+          python -m venv venv
+          source venv/bin/activate
       
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -38,10 +35,10 @@ jobs:
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v2
         with:
-          name: trading-bot-api
+          name: python-app
           path: |
-            .
-            !runtime/
+            . 
+            !venv/
 
   deploy:
     runs-on: ubuntu-latest
@@ -54,7 +51,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
-          name: trading-bot-api
+          name: python-app
           path: .
           
       - name: 'Deploy to Azure Web App'
@@ -63,4 +60,4 @@ jobs:
         with:
           app-name: 'trading-bot-api'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EDBC4AC47E054E0987FC7EDFA573DA3E }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5FE78596A52A401EAA34D7788E9E715F }}
