@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'trading-bot-api'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5FE78596A52A401EAA34D7788E9E715F }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E1098C56202A415BA152EC6D0391F899 }}
